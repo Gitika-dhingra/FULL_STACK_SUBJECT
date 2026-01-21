@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Responsive layout for mobile and desktop -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration Form</title>
+
+    <style>
+        /* Page background and font */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdeff4; /* light pink */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Main form container */
+        .container {
+            background-color: #ffffff;
+            padding: 25px;
+            width: 340px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Form heading */
+        h2 {
+            text-align: center;
+            color: #c2185b;
+            margin-bottom: 20px;
+        }
+
+        /* Space between input fields */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* Label styling */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Input box styling */
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Validation feedback */
+        input:focus:invalid {
+            border-color: red;
+        }
+
+        input:focus:valid {
+            border-color: green;
+        }
+
+        /* Small instruction text */
+        .hint {
+            font-size: 11px;
+            color: #777;
+        }
+
+        /* Submit button */
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ec407a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d81b60;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Registration form container -->
+    <div class="container">
+
+        <h2>Student Registration</h2>
+
+        <!-- HTML5 form with built-in validation -->
+        <form>
+
+            <!-- Name field -->
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text"
+                       placeholder="Enter your name"
+                       required
+                       pattern="[A-Za-z\s]{3,}">
+                <div class="hint">Minimum 3 letters (alphabets only)</div>
+            </div>
+
+            <!-- Email field -->
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email"
+                       placeholder="example@mail.com"
+                       required>
+            </div>
+
+            <!-- Age field -->
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number"
+                       min="17"
+                       max="50"
+                       required>
+                <div class="hint">Age must be between 17 and 50</div>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Submit</button>
+
+        </form>
+    </div>
+
+</body>
+</html>

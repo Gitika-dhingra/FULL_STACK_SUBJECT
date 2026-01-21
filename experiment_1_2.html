@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking UI</title>
+
+    <style>
+        /* Page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fce4ec, #ede7f6);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Main card */
+        .banking-card {
+            background: #ffffff;
+            width: 360px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        h2 {
+            color: #ad1457;
+            margin-bottom: 20px;
+        }
+
+        /* Balance section */
+        .balance-container {
+            background: linear-gradient(135deg, #f06292, #ba68c8);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 2.3rem;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        /* Transaction area */
+        .transaction-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ab47bc;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            color: white;
+        }
+
+        .deposit-btn {
+            background: linear-gradient(135deg, #66bb6a, #43a047);
+        }
+
+        .withdraw-btn {
+            background: linear-gradient(135deg, #ef5350, #e53935);
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Message output */
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 18px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banking-card">
+        <h2>Digital Bank</h2>
+
+        <div class="balance-container">
+            <div class="balance-label">Current Balance</div>
+            <div class="balance-amount">₹ <span id="balance">1000</span></div>
+        </div>
+
+        <div class="transaction-box">
+            <input type="number" id="amountInput" placeholder="Enter amount" min="1">
+
+            <div class="button-group">
+                <button class="deposit-btn" onclick="handleTransaction('deposit')">
+                    Deposit
+                </button>
+                <button class="withdraw-btn" onclick="handleTransaction('withdraw')">
+                    Withdraw
+                </button>
+            </div>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        let balance = 1000;
+
+        const balanceDisplay = document.getElementById("balance");
+        const amountInput = document.getElementById("amountInput");
+        const messageDisplay = document.getElementById("message");
+
+        function handleTransaction(type) {
+            const amount = Number(amountInput.value);
+
+            if (amount <= 0 || isNaN(amount)) {
+                showMessage("Enter a valid amount", "#d32f2f");
+                return;
+            }
+
+            if (type === "deposit") {
+                balance += amount;
+                showMessage("Deposit successful", "#2e7d32");
+            }
+
+            if (type === "withdraw") {
+                if (amount > balance) {
+                    showMessage("Insufficient balance", "#d32f2f");
+                    return;
+                }
+                balance -= amount;
+                showMessage("Withdrawal successful", "#2e7d32");
+            }
+
+            balanceDisplay.textContent = balance;
+            amountInput.value = "";
+        }
+
+        function showMessage(text, color) {
+            messageDisplay.textContent = text;
+            messageDisplay.style.color = color;
+        }
+    </script>
+
+</body>
+</html>
