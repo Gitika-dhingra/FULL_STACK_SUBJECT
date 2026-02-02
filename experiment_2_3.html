@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Drawing Pad</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            /* Light pink background */
+            background: #ffeef2; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            color: #444;
+        }
+
+        .toolbar {
+            margin: 20px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        button {
+            padding: 8px 16px;
+            border: 1px solid #f8c9d4;
+            background: white;
+            color: #d81b60; 
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: #fff0f3;
+        }
+
+        input[type="color"] {
+            border: 1px solid #f8c9d4;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        svg {
+            width: 90vw;
+            height: 70vh;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        polyline {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <input type="color" id="colorPicker" value="#d81b60">
+        <button onclick="undo()">Undo</button>
+        <button onclick="clearAll()" style="color: #999; border-color: #ddd;">Clear</button>
+    </div>
+
+    <svg id="canvas"></svg>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const colorPicker = document.getElementById('colorPicker');
+        let drawing = false;
+        let currentLine = null;
+
+        const getPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        };
+
+        canvas.onmousedown = (e) => {
+            drawing = true;
+            const p = getPos(e);
+            currentLine = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            currentLine.setAttribute("stroke", colorPicker.value);
+            currentLine.setAttribute("points", `${p.x},${p.y}`);
+            canvas.appendChild(currentLine);
+        };
+
+        canvas.onmousemove = (e) => {
+            if (!drawing) return;
+            const p = getPos(e);
+            const points = currentLine.getAttribute("points");
+            currentLine.setAttribute("points", `${points} ${p.x},${p.y}`);
+        };
+
+        window.onmouseup = () => drawing = false;
+
+        function undo() {
+            if (canvas.lastChild) canvas.removeChild(canvas.lastChild);
+        }
+
+        function clearAll() {
+            canvas.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

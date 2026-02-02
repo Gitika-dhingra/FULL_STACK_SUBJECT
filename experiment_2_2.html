@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter</title>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --accent-pink: #fbc2eb;
+            --bg-soft: #fff5f7;
+            --text-dark: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-soft);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--primary-pink); }
+
+        /* Filter Section */
+        .controls {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        select {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--primary-pink);
+            background: white;
+            color: var(--text-dark);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Responsive Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255, 133, 162, 0.1);
+            border: 1px solid #ffeef2;
+            text-align: center;
+            animation: popIn 0.3s ease-out;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.03);
+            border-color: var(--primary-pink);
+        }
+
+        .category-tag {
+            font-size: 0.7rem;
+            background: var(--accent-pink);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .price {
+            color: var(--primary-pink);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>My Shop</h1>
+        </header>
+
+        <div class="controls">
+            <select id="categoryFilter">
+                <option value="all">All Items</option>
+                <option value="tech">Tech</option>
+                <option value="style">Style</option>
+                <option value="home">Home</option>
+            </select>
+        </div>
+
+        <main id="productGrid" class="product-grid">
+            </main>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Headphones", category: "tech", price: "$99" },
+            { id: 2, name: "Sneakers", category: "style", price: "$120" },
+            { id: 3, name: "Desk Lamp", category: "home", price: "$30" },
+            { id: 4, name: "Smart Watch", category: "tech", price: "$150" },
+            { id: 5, name: "Backpack", category: "style", price: "$60" },
+            { id: 6, name: "Coffee Mug", category: "home", price: "$15" }
+        ];
+
+        const grid = document.getElementById('productGrid');
+        const filter = document.getElementById('categoryFilter');
+
+        function showProducts(list) {
+            grid.innerHTML = "";
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <span class="category-tag">${item.category}</span>
+                    <h3>${item.name}</h3>
+                    <p class="price">${item.price}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        filter.addEventListener('change', (e) => {
+            const choice = e.target.value;
+            const filtered = choice === 'all' 
+                ? products 
+                : products.filter(p => p.category === choice);
+            showProducts(filtered);
+        });
+
+        // Load all on start
+        showProducts(products);
+    </script>
+</body>
+</html>

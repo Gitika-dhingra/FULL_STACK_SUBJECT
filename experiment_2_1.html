@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4d94;
+            --soft-pink: #ffebf2;
+            --dark-pink: #c2185b;
+            --bg-color: #fff5f8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .counter-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 77, 148, 0.15);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ffe1ef;
+        }
+
+        h2 { 
+            color: var(--primary-pink); 
+            margin-top: 0;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid var(--soft-pink);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            color: #444;
+        }
+
+        /* Focus state with a pink glow */
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 10px rgba(255, 77, 148, 0.1);
+        }
+
+        /* When the limit is hit */
+        .limit-exceeded {
+            border-color: #ff0000 !important;
+            background-color: #fffafa;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #888;
+        }
+
+        #charCount {
+            color: var(--primary-pink);
+        }
+
+        #warning {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Selection color in pink */
+        textarea::selection {
+            background: var(--primary-pink);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter-card">
+        <h2>Live Counter</h2>
+        <textarea id="textInput" placeholder="Start typing..."></textarea>
+        
+        <div class="stats">
+            <span>Characters: <span id="charCount">0</span></span>
+            <span>Limit: <span id="limitCount">100</span></span>
+        </div>
+        
+        <div id="warning">Character limit reached!</div>
+    </div>
+
+    <script>
+        const textInput = document.getElementById('textInput');
+        const charCount = document.getElementById('charCount');
+        const warning = document.getElementById('warning');
+        
+        const MAX_LIMIT = 100;
+
+        textInput.addEventListener('input', () => {
+            const length = textInput.value.length;
+            charCount.textContent = length;
+
+            if (length > MAX_LIMIT) {
+                textInput.classList.add('limit-exceeded');
+                warning.style.display = 'block';
+                charCount.style.color = '#ff0000';
+            } else {
+                textInput.classList.remove('limit-exceeded');
+                warning.style.display = 'none';
+                charCount.style.color = '#ff4d94';
+            }
+        });
+    </script>
+
+</body>
+</html>
